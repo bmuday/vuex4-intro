@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="user">
     <!-- vuex basics -->
     <div>points: {{ points }}</div>
     <button @click="updatePoints(1)">Add a point</button>
@@ -22,6 +22,7 @@
       </div>
     </div>
   </div>
+  <div v-else>Please connect before accessing content</div>
 </template>
 
 <script>
@@ -38,16 +39,15 @@ export default {
 
     const store = useStore();
 
-    const points = computed(() => store.state.points);
-
     const updatePoints = (p) => {
       store.commit("updatePoints", p);
     };
 
     return {
       blogs,
-      points,
+      points: computed(() => store.state.points),
       updatePoints,
+      user: computed(() => store.state.user),
     };
   },
 };
